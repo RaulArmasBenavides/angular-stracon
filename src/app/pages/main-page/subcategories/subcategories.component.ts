@@ -3,13 +3,11 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-subcategories',
   templateUrl: './subcategories.component.html',
-  styleUrls: ['./subcategories.component.css']
+  styleUrls: ['./subcategories.component.css'],
+  standalone: false,
 })
 export class SubcategoriesComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
