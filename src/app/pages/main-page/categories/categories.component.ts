@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Category } from 'src/app/core/models/category.model';
+import { CategoriesService } from 'src/app/core/services/categories.service';
 
 @Component({
   selector: 'app-categories',
@@ -7,7 +10,27 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class CategoriesComponent implements OnInit {
-  constructor() {}
+ private readonly categoriesService = inject(CategoriesService);
 
-  ngOnInit(): void {}
+  categories$!: Observable<Category[]>;
+  term = '';
+
+  // UI: expand/collapse por categoría
+  expanded = new Set<number>();
+
+  ngOnInit(): void {
+    this.categories$ = this.categoriesService.getCategories();
+  }
+
+  onSearch(): void {
+    this.categories$ = this.categoriesService.searchCategories(this.term);
+  }
+
+  toggle(id: number): void {
+    this.expanded.has(id) ? this.expanded.delete(id) : this.expanded.add(id);
+  }
+
+  isExpanded(id: number): boolean {
+    return this.expanded.has(id);
+  }
 }
