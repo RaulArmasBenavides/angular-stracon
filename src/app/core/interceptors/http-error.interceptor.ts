@@ -2,10 +2,11 @@ import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpErrorResponse } from
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { inject } from '@angular/core';
-import { alertHelper } from 'src/app/helper/alert.helper';
+import { AlertHelper } from 'src/app/helper/alert.helper';
+
 
 export const httpErrorInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
-	const alert = inject(alertHelper);
+	const alert = inject(AlertHelper);
 
 	return next(req).pipe(
 		catchError((error: HttpErrorResponse) => {

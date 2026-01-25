@@ -1,120 +1,108 @@
-<section class="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-white">
-	<app-tuvihero
-		badgeText="LOCALES"
-		title="LOCALES A SOLO UN"
-		subtitle="CLICK DE DISTANCIA."
-		ctaText="¿QUÉ ESTAS BUSCANDO HOY?"
-		ctaIcon="search"
-	></app-tuvihero>
-	<div class="flex items-center justify-center p-8 bg-white">
-		<div class="w-full max-w-md">
-			<ng-container *ngIf="!isLoading; else loadingTemplate">
-				<form *ngIf="!isRecovering" [formGroup]="loginForm" (ngSubmit)="login()" id="loginform">
-					<div class="flex justify-center mb-6">
-						<img src="../assets/images/logo-icon.png" alt="Logo" class="w-24 h-24" />
-					</div>
+<div class="login-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a class="h1"><b>Stracon</b></a>
+    </div>
 
-					<div class="mb-4">
-						<label class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
-						<input
-							type="email"
-							formControlName="email"
-							placeholder="Email"
-							class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-						/>
-					</div>
+    <div class="card-body">
+      <p class="login-box-msg" *ngIf="!isRecovering">Inicia sesión para continuar</p>
+      <p class="login-box-msg" *ngIf="isRecovering">Recuperar acceso</p>
 
-					<div class="mb-4 relative">
-						<label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+      <ng-container *ngIf="!isLoading; else loadingTemplate">
+        <!-- LOGIN FORM -->
+        <form *ngIf="!isRecovering" [formGroup]="loginForm" (ngSubmit)="login()">
+          <!-- Email -->
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Email" formControlName="email" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
 
-						<!-- ⬇️ Enlaza el tipo y agrega espacio a la derecha -->
-						<input
-							[type]="showPassword ? 'text' : 'password'"
-							formControlName="password"
-							placeholder="Password"
-							class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-						/>
+          <!-- Password -->
+          <div class="input-group mb-3">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              placeholder="Password"
+              formControlName="password"
+            />
+            <div class="input-group-append">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="showPassword = !showPassword"
+                [attr.aria-pressed]="showPassword"
+                title="Mostrar u ocultar contraseña"
+              >
+                <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+              </button>
+            </div>
+          </div>
 
-						<button
-							type="button"
-							(click)="showPassword = !showPassword"
-							class="absolute right-3 top-9 text-gray-500 z-10"
-							aria-label="Mostrar u ocultar contraseña"
-							title="Mostrar u ocultar contraseña"
-							[attr.aria-pressed]="showPassword"
-						>
-							<!-- Ojo cerrado -->
-							<svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-								/>
-							</svg>
+          <!-- Remember + Forgot -->
+          <div class="row mb-3">
+            <div class="col-7">
+              <div class="icheck-primary">
+                <input type="checkbox" id="remember" formControlName="remember" />
+                <label for="remember"> Recordarme </label>
+              </div>
+            </div>
+            <div class="col-5 text-right">
+              <a (click)="showRecoverForm()" class="cursor-pointer">¿Olvidaste?</a>
+            </div>
+          </div>
 
-							<!-- Ojo abierto -->
-							<svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a9.97 9.97 0 012.548-4.042M9.88 9.88a3 3 0 104.24 4.24M6.1 6.1l11.8 11.8"
-								/>
-							</svg>
-						</button>
-					</div>
+          <!-- Submit -->
+          <div class="row">
+            <div class="col-12">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                [disabled]="loginForm.invalid || isLoading"
+              >
+                Iniciar sesión
+              </button>
+            </div>
+          </div>
+        </form>
 
-					<div class="flex justify-between items-center text-sm mb-4">
-						<label class="inline-flex items-center">
-							<input type="checkbox" formControlName="remember" class="rounded text-green-600 border-gray-300 focus:ring-green-500" />
-							<span class="ml-2 text-gray-600">Recordarme</span>
-						</label>
-						<a (click)="showRecoverForm()" class="text-green-600 hover:underline cursor-pointer"> ¿Olvidaste tu contraseña? </a>
-					</div>
-					<button
-						type="submit"
-						class="w-full bg-accent hover:bg-green-700 text-black font-semibold py-2 rounded-md mb-4"
-						[disabled]="loginForm.invalid || isLoading"
-					>
-						Iniciar Sesión
-					</button>
-				</form>
+        <!-- REGISTER LINK -->
+        <!-- <p class="mb-1 mt-3 text-center" *ngIf="!isRecovering">
+          ¿Aún no tienes cuenta?
+          <a (click)="goToRegister()" class="cursor-pointer">Regístrate</a>
+        </p> -->
 
-				<div *ngIf="!isRecovering" class="text-center text-sm text-gray-600">
-					¿Aún no tienes cuenta?
-					<button type="button" (click)="goToRegister()" class="text-green-600 font-medium hover:underline">Regístrate</button>
-				</div>
-				<form *ngIf="isRecovering" [formGroup]="recoverForm" (ngSubmit)="requestAccessCode()">
-					<div class="flex justify-center mb-6">
-						<img src="../assets/images/logo-icon.png" alt="Logo" class="w-24 h-24" />
-					</div>
+        <!-- RECOVER FORM -->
+        <form *ngIf="isRecovering" [formGroup]="recoverForm" (ngSubmit)="requestAccessCode()">
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Email" formControlName="email" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
 
-					<!-- Email para recuperar -->
-					<div class="mb-4">
-						<label class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
-						<input
-							type="email"
-							formControlName="email"
-							placeholder="Email"
-							class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-						/>
-					</div>
+          <button type="submit" class="btn btn-primary btn-block">
+            Solicitar código de acceso
+          </button>
 
-					<button type="submit" class="w-full bg-accent hover:bg-green-700 text-black font-semibold py-2 rounded-md mb-4">
-						Solicitar código de acceso
-					</button>
+          <p class="mt-3 mb-0 text-center">
+            ¿Recordaste tu contraseña?
+            <a (click)="showLoginForm()" class="cursor-pointer">Iniciar sesión</a>
+          </p>
+        </form>
+      </ng-container>
 
-					<div class="text-center text-sm text-gray-600">
-						¿Recordaste tu contraseña?
-						<a (click)="showLoginForm()" class="text-accent font-medium hover:underline cursor-pointer">Iniciar sesión</a>
-					</div>
-				</form>
-			</ng-container>
-			<ng-template #loadingTemplate>
-				<app-loader></app-loader>
-			</ng-template>
-		</div>
-	</div>
-</section>
+      <ng-template #loadingTemplate>
+        <div class="text-center py-3">
+          <i class="fas fa-spinner fa-spin fa-2x"></i>
+          <p class="mt-2 mb-0">Cargando...</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
