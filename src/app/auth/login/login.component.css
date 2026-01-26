@@ -1,1 +1,44 @@
- 
+ .login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 500px;
+}
+
+.card {
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;
+}
+
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.input-group-text {
+  background-color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cursor-pointer:hover {
+  opacity: 0.8;
+}
+
+.alert {
+  border-left: 4px solid #17a2b8;
+}

@@ -1,12 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, PLATFORM_ID, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
@@ -15,89 +9,83 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { LoginRequest } from 'src/app/core/models/auth.model';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
-  standalone: true
+	selector: 'app-login',
+	templateUrl: './login.component.html',
+	styleUrls: ['./login.component.css'],
+	imports: [CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
+	standalone: true
 })
 export class LoginComponent implements OnInit {
-  public formSubmitted = false;
-  public auth2: any;
-  isRecovering: boolean = false;
-  isVerifying: boolean = false;
-  tokenGoogle: string = '';
-  email: string = '';
-  isBrowser: boolean = false;
-  isValidCaptcha: boolean = true;
-  showPassword: boolean = false;
+	public formSubmitted = false;
+	public auth2: any;
+	isRecovering: boolean = false;
+	isVerifying: boolean = false;
 
-  captchaPassed: boolean = false;
-  isLoading: boolean = false;
-  loginForm = new FormGroup({
-    email: new FormControl({ value: null, disabled: false }, [Validators.required]),
-    password: new FormControl({ value: null, disabled: false }, [Validators.required]),
-    remember: new FormControl()
-  });
+	email: string = '';
+	isBrowser: boolean = false;
 
-  recoverForm = new FormGroup({
-    email: new FormControl({ value: null, disabled: false }, [Validators.required]),
-    accessCode: new FormControl({}, [Validators.required])
-  });
-  constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: Object,
-    private readonly router: Router,
+	showPassword: boolean = false;
 
-    private readonly loginService: AuthService
-  ) {}
+	isLoading: boolean = false;
+	loginForm = new FormGroup({
+		email: new FormControl({ value: null, disabled: false }, [Validators.required]),
+		password: new FormControl({ value: null, disabled: false }, [Validators.required]),
+		remember: new FormControl()
+	});
 
-  // private readonly alert: alertHelper,
+	recoverForm = new FormGroup({
+		email: new FormControl({ value: null, disabled: false }, [Validators.required]),
+		accessCode: new FormControl({}, [Validators.required])
+	});
+	constructor(
+		@Inject(PLATFORM_ID) private readonly platformId: Object,
+		private readonly router: Router,
 
-  ngOnInit(): void {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-  }
+		private readonly loginService: AuthService
+	) {}
 
-  login() {
-    this.formSubmitted = true;
+	// private readonly alert: alertHelper,
 
-    this.isValidCaptcha = true;
-    this.isLoading = true;
+	ngOnInit(): void {
+		this.isBrowser = isPlatformBrowser(this.platformId);
+	}
 
-    this.isLoading = true;
-    this.loginService.login(this.getLoginFormValue()).subscribe(
-      (resp: any) => {
-        this.isLoading = false;
-        this.router.navigateByUrl('/main');
-      },
-      (err) => {
-        this.isLoading = false;
-        console.error('error');
-        //this.alert.notify('Usuario o password incorrectos', 'warning');
-      }
-    );
-  }
-  showRecoverForm() {
-    this.isRecovering = true;
-  }
+	login() {
+		this.formSubmitted = true;
 
-  showLoginForm() {
-    this.isRecovering = false;
-  }
-  getLoginFormValue(): LoginRequest {
-    const { email, password } = this.loginForm.value;
+		this.isLoading = true;
 
-    return {
-      userName: email ?? '',
-      password: password ?? ''
-      //   recaptcha: recaptcha ?? ''
-    };
-  }
+		this.isLoading = true;
+		this.loginService.login(this.getLoginFormValue()).subscribe(
+			(resp: any) => {
+				this.isLoading = false;
+				this.router.navigateByUrl('/main');
+			},
+			(err) => {
+				this.isLoading = false;
+				console.error('error');
+				//this.alert.notify('Usuario o password incorrectos', 'warning');
+			}
+		);
+	}
+	showRecoverForm() {
+		this.isRecovering = true;
+	}
 
-  resolved(captchaResponse: string) {
-    this.tokenGoogle = captchaResponse;
-  }
+	showLoginForm() {
+		this.isRecovering = false;
+	}
+	getLoginFormValue(): LoginRequest {
+		const { email, password } = this.loginForm.value;
 
-  requestAccessCode() {
-    //TODO
-  }
+		return {
+			userName: email ?? '',
+			password: password ?? ''
+			//   recaptcha: recaptcha ?? ''
+		};
+	}
+
+	requestAccessCode() {
+		//TODO
+	}
 }
