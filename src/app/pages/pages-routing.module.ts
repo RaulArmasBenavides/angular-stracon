@@ -6,6 +6,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { Error404Component } from './main-page/error404/error404.component';
 import { Suppliers } from './main-page/suppliers/suppliers';
 import { ModalEditSupplier } from './main-page/suppliers/components/modal-edit-supplier/modal-edit-supplier';
+import { ModalCreateSupplier } from './main-page/suppliers/components/modal-create-supplier/modal-create-supplier';
 
 const routes: Routes = [
 	{
@@ -17,6 +18,7 @@ const routes: Routes = [
 
 			{ path: 'suppliers', component: Suppliers },
 			{ path: 'suppliers/:id/edit', component: ModalEditSupplier },
+			{ path: 'suppliers/create', component: ModalCreateSupplier },
 			{ path: '**', component: Error404Component }
 		]
 	}

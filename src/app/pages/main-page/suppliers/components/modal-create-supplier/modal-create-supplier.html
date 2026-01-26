@@ -1,1 +1,170 @@
-<p>modal-create-supplier works!</p>
+<div class="content-wrapper">
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>Crear Proveedor</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a [routerLink]="['/main']">Home</a></li>
+						<li class="breadcrumb-item"><a [routerLink]="['/main/suppliers']">Proveedores</a></li>
+						<li class="breadcrumb-item active">Crear</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="content">
+		<div class="card">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<button class="btn btn-sm btn-secondary" type="button" (click)="onCancel()"><i class="fas fa-arrow-left"></i> Volver</button>
+			</div>
+
+			<form [formGroup]="supplierForm" (ngSubmit)="onSubmit()" autocomplete="off">
+				<div class="card-body">
+					<div class="row">
+						<!-- Columna izquierda: Información básica -->
+						<div class="col-md-6">
+							<h6 class="text-primary mb-3"><i class="fas fa-info-circle mr-1"></i> Información Básica</h6>
+
+							<!-- Nombre -->
+							<div class="form-group">
+								<label for="name" class="font-weight-bold">Nombre *</label>
+								<input
+									type="text"
+									id="name"
+									formControlName="name"
+									class="form-control"
+									[class.is-invalid]="getFieldError('name')"
+									placeholder="Ej: Proveedor S.A."
+								/>
+								<div *ngIf="getFieldError('name')" class="invalid-feedback d-block">
+									<small>{{ getFieldError('name') }}</small>
+								</div>
+							</div>
+
+							<!-- Email -->
+							<div class="form-group">
+								<label for="email" class="font-weight-bold">Email *</label>
+								<input
+									type="email"
+									id="email"
+									formControlName="email"
+									class="form-control"
+									[class.is-invalid]="getFieldError('email')"
+									placeholder="Ej: contacto@proveedor.com"
+								/>
+								<div *ngIf="getFieldError('email')" class="invalid-feedback d-block">
+									<small>{{ getFieldError('email') }}</small>
+								</div>
+							</div>
+
+							<!-- Teléfono -->
+							<div class="form-group">
+								<label for="phone" class="font-weight-bold">Teléfono *</label>
+								<input
+									type="tel"
+									id="phone"
+									formControlName="phone"
+									class="form-control"
+									[class.is-invalid]="getFieldError('phone')"
+									placeholder="Ej: +56 9 1234 5678"
+								/>
+								<div *ngIf="getFieldError('phone')" class="invalid-feedback d-block">
+									<small>{{ getFieldError('phone') }}</small>
+								</div>
+							</div>
+
+							<!-- Dirección -->
+							<div class="form-group">
+								<label for="address" class="font-weight-bold">Dirección *</label>
+								<textarea
+									id="address"
+									formControlName="address"
+									class="form-control"
+									[class.is-invalid]="getFieldError('address')"
+									rows="3"
+									placeholder="Dirección completa"
+								></textarea>
+								<div *ngIf="getFieldError('address')" class="invalid-feedback d-block">
+									<small>{{ getFieldError('address') }}</small>
+								</div>
+							</div>
+
+							<!-- Aprobado -->
+							<div class="form-group form-check">
+								<input type="checkbox" id="isApproved" formControlName="isApproved" class="form-check-input" />
+								<label class="form-check-label" for="isApproved"> Aprobado </label>
+								<small class="form-text text-muted d-block"> Nota: Solo usuarios con rol "Approver" pueden aprobar proveedores </small>
+							</div>
+						</div>
+
+						<!-- Columna derecha: Foto -->
+						<div class="col-md-6">
+							<h6 class="text-primary mb-3"><i class="fas fa-camera mr-1"></i> Foto del Proveedor</h6>
+
+							<div class="text-center mb-4">
+								<!-- Preview de imagen -->
+								<div class="mb-3">
+									<img [src]="getPhotoUrl()" class="img-fluid img-thumbnail" style="max-height: 220px; object-fit: cover" alt="Preview" />
+								</div>
+
+								<!-- Botones de archivo -->
+								<div class="btn-group" role="group">
+									<!-- Input file oculto -->
+									<input type="file" id="photoInput" accept="image/*" class="d-none" (change)="onFileSelected($event)" #fileInput />
+
+									<!-- Botón para seleccionar archivo -->
+									<label for="photoInput" class="btn btn-outline-primary btn-sm mr-2">
+										<i class="fas fa-image"></i> {{ selectedFile ? 'Cambiar Foto' : 'Seleccionar Foto' }}
+									</label>
+
+									<!-- Botón para remover foto -->
+									<button *ngIf="selectedFile" type="button" class="btn btn-outline-danger btn-sm" (click)="removePhoto()">
+										<i class="fas fa-trash"></i> Remover
+									</button>
+								</div>
+
+								<!-- Información del archivo -->
+								<div *ngIf="selectedFile" class="mt-3">
+									<p class="mb-1"><strong>Archivo:</strong> {{ selectedFile.name }}</p>
+									<p class="mb-0"><strong>Tamaño:</strong> {{ (selectedFile.size / 1024).toFixed(2) }} KB</p>
+								</div>
+
+								<!-- Instrucciones -->
+								<small class="text-muted d-block mt-3">
+									<i class="fas fa-info-circle"></i>
+									Formatos permitidos: JPG, PNG, GIF, WebP, BMP. Tamaño máximo: 5MB
+								</small>
+							</div>
+
+							<!-- Resumen de validación -->
+							<div class="alert alert-info" *ngIf="supplierForm.invalid && supplierForm.touched">
+								<h6 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Campos requeridos:</h6>
+								<ul class="mb-0 pl-3">
+									<li *ngIf="supplierForm.get('name')?.invalid">• Nombre del proveedor</li>
+									<li *ngIf="supplierForm.get('email')?.invalid">• Email válido</li>
+									<li *ngIf="supplierForm.get('phone')?.invalid">• Teléfono</li>
+									<li *ngIf="supplierForm.get('address')?.invalid">• Dirección</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card-footer d-flex justify-content-end" style="gap: 8px">
+					<button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="isSubmitting">
+						<i class="fas fa-times"></i> Cancelar
+					</button>
+
+					<button type="submit" class="btn btn-primary" [disabled]="supplierForm.invalid || isSubmitting">
+						<i class="fas" [class.fa-save]="!isSubmitting" [class.fa-spinner.fa-spin]="isSubmitting"></i>
+						{{ isSubmitting ? 'Creando...' : 'Crear Proveedor' }}
+					</button>
+				</div>
+			</form>
+		</div>
+	</section>
+</div>

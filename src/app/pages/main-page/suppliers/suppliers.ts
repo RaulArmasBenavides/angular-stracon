@@ -48,4 +48,8 @@ export class Suppliers {
 		// TODO: delete endpoint
 		console.log('delete', s);
 	}
+
+	onCreate() {
+		this.router.navigate(['/main/suppliers', 'create']);
+	}
 }

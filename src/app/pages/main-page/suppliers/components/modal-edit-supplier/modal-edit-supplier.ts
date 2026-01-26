@@ -32,8 +32,8 @@ export class ModalEditSupplier {
 
 	getPhotoUrl(s: Supplier): string {
 		// Placeholder
-		if (!s.photoId) return 'assets/img/template/no-image.png';
-		if (s.photoId.startsWith('http')) return s.photoId;
+		if (!s.photo) return 'assets/img/template/no-image.png';
+		// if (s.photo.startsWith('http')) return s.photo;
 		return 'assets/img/template/no-image.png';
 	}
 

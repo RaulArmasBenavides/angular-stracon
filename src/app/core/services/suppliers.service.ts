@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 
 export type CreateSupplierRequest = Omit<Supplier, 'id' | 'createdAt'>;
 
-export type UpdateSupplierRequest = Partial<Pick<Supplier, 'name' | 'contactName' | 'email' | 'phone' | 'isActive'>>;
+export type UpdateSupplierRequest = Partial<Pick<Supplier, 'name' | 'email' | 'phone' | 'isActive'>>;
 
 export type JsonPatchOp = {
 	op: 'add' | 'remove' | 'replace' | 'move' | 'copy' | 'test';
@@ -46,8 +46,28 @@ export class SupplierService {
 	}
 
 	// ======= POST (create) =======
-	createSupplier(payload: CreateSupplierRequest): Observable<Supplier> {
-		return this.http.post<Supplier>(this.baseUrl, payload);
+	createSupplier(supplierData: CreateSupplierRequest): Observable<Supplier> {
+		const formData = new FormData();
+
+		// Agregar campos de texto
+		formData.append('Name', supplierData.name);
+		formData.append('Address', supplierData.address);
+		formData.append('Phone', supplierData.phone);
+		formData.append('Email', supplierData.email);
+
+		if (supplierData.isApproved !== undefined) {
+			formData.append('IsApproved', supplierData.isApproved.toString());
+		}
+
+		// Agregar archivo si existe
+		if (supplierData.photo) {
+			formData.append('Photo', supplierData.photo);
+		}
+
+		// NO configurar Content-Type - el navegador lo hace automáticamente con el boundary
+		return this.http.post<Supplier>(`${environment.apiUrl}/suppliers`, formData, {
+			headers: this.authHeaders()
+		});
 	}
 
 	// ======= PATCH (partial update - simple DTO) =======

@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { User } from '../models/user.model';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/module.d-CnjH8Dlt';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
