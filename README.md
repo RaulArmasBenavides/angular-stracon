@@ -4,6 +4,9 @@ Para levantar el proyecto
  ng s -o
 
 
+Login
+
+<img width="1055" height="872" alt="image" src="https://github.com/user-attachments/assets/6becd33a-9352-404d-b24b-5320c8c8c871" />
 
 
 Probar con los siguientes usuarios 
