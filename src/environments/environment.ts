@@ -1,10 +1,13 @@
 // This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
+// `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  apiUrl:'https://localhost:44340/api/v1',
-  production: false
+  production: false,
+  apiUrl: 'https://localhost:44340/api/v1',
+  secretkey: "aearectm**",
+  keyCaptcha :"6Lfr5P0qAAAAALrdY8M6tpeIt-xepFs4IKHlpV73",
+  keySecret : "6Le188opAAAAAKzp2PwFqSMBbDQ-Th__vqtFkkRt"
 };
 
 /*
@@ -14,4 +17,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

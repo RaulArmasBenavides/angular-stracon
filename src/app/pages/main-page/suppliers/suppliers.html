@@ -1,116 +1,106 @@
 <div class="content-wrapper">
-  <!-- Header -->
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Suppliers</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
-            <li class="breadcrumb-item active">Suppliers</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </section>
+	<!-- Header -->
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>Proveedores</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+						<li class="breadcrumb-item active">Suppliers</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</section>
 
-  <!-- Content -->
-  <section class="content">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Suppliers List</h3>
+	<!-- Content -->
+	<section class="content">
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">Proveedores</h3>
 
-        <div class="card-tools d-flex" style="gap: 8px;">
-          <!-- Search -->
-          <div class="input-group input-group-sm" style="width: 240px;">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search..."
-              [(ngModel)]="searchTerm"
-              (keyup.enter)="onSearch()"
-              aria-label="Search suppliers"
-            />
-            <div class="input-group-append">
-              <button class="btn btn-default" type="button" (click)="onSearch()">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
+				<div class="card-tools d-flex" style="gap: 8px">
+					<!-- Search -->
+					<div class="input-group input-group-sm" style="width: 240px">
+						<input type="text" class="form-control" placeholder="Search..." (keyup.enter)="onSearch()" aria-label="Search suppliers" />
+						<div class="input-group-append">
+							<button class="btn btn-default" type="button" (click)="onSearch()">
+								<i class="fas fa-search"></i>
+							</button>
+						</div>
+					</div>
 
-          <!-- Collapse -->
-          <button class="btn btn-tool" type="button" data-card-widget="collapse" title="Collapse">
-            <i class="fas fa-minus"></i>
-          </button>
+					<!-- Collapse -->
+					<button class="btn btn-tool" type="button" data-card-widget="collapse" title="Collapse">
+						<i class="fas fa-minus"></i>
+					</button>
 
-          <!-- Remove (opcional) -->
-          <button class="btn btn-tool" type="button" data-card-widget="remove" title="Remove">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      </div>
+					<!-- Remove (opcional) -->
+					<button class="btn btn-tool" type="button" data-card-widget="remove" title="Remove">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+			</div>
 
-      <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
-          <thead>
-            <tr>
-              <th style="width: 90px;">ID</th>
-              <th>Company</th>
-              <th>Contact</th>
-              <th>Email</th>
-              <th style="width: 140px;">Phone</th>
-              <th style="width: 120px;">Status</th>
-              <th style="width: 160px;">Created</th>
-              <th style="width: 120px;" class="text-right">Actions</th>
-            </tr>
-          </thead>
+			<div class="card-body table-responsive p-0">
+				<table class="table table-hover text-nowrap">
+					<thead>
+						<tr>
+							<th style="width: 90px">ID</th>
+							<th>Nombre</th>
+							<th>Dirección</th>
+							<th>Email</th>
+							<th style="width: 140px">Celular</th>
+							<th style="width: 120px">Aprobado</th>
+							<th style="width: 160px">Creado</th>
+							<th style="width: 160px">Aprobado por</th>
+							<th style="width: 120px" class="text-right">Acciones</th>
+						</tr>
+					</thead>
 
-          <tbody>
-            <tr *ngFor="let s of (suppliers$ | async)">
-              <td>{{ s.id }}</td>
-              <td>{{ s.companyName }}</td>
-              <td>{{ s.contactName }}</td>
-              <td>{{ s.email }}</td>
-              <td>{{ s.phone }}</td>
-              <td>
-                <span
-                  class="badge"
-                  [ngClass]="s.isActive ? 'badge-success' : 'badge-secondary'"
-                >
-                  {{ s.isActive ? 'Active' : 'Inactive' }}
-                </span>
-              </td>
-              <td>{{ s.createdAt | date: 'yyyy-MM-dd HH:mm' }}</td>
+					<tbody>
+						<tr *ngFor="let s of (suppliers$ | async)">
+							<td class="text-truncate" style="max-width: 90px" title="{{ s.id }}">{{ s.id }}</td>
+							<td>{{ s.name }}</td>
+							<td class="text-truncate" style="max-width: 260px" title="{{ s.address }}">{{ s.address }}</td>
+							<td>{{ s.email }}</td>
+							<td>{{ s.phone }}</td>
 
-              <td class="text-right">
-                <button class="btn btn-sm btn-primary mr-1" type="button" (click)="onEdit(s)">
-                  <i class="fas fa-pen"></i>
-                </button>
-                <button class="btn btn-sm btn-danger" type="button" (click)="onDelete(s)">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </td>
-            </tr>
+							<td>
+								<span class="badge" [ngClass]="s.isApproved ? 'badge-success' : 'badge-secondary'">
+									{{ s.isApproved ? 'Approved' : 'Pending' }}
+								</span>
+							</td>
 
-            <tr *ngIf="(suppliers$ | async)?.length === 0">
-              <td colspan="8" class="text-center text-muted p-4">
-                No suppliers found.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+							<td>{{ s.createdAt | date: 'yyyy-MM-dd HH:mm' }}</td>
+							<td>{{ s.approvedBy || '-' }}</td>
 
-      <div class="card-footer d-flex justify-content-between align-items-center">
-        <small class="text-muted">Data source: SupplierService</small>
+							<td class="text-right">
+								<button class="btn btn-sm btn-primary mr-1" type="button" (click)="onEdit(s)">
+									<i class="fas fa-pen"></i>
+								</button>
+								<button class="btn btn-sm btn-danger" type="button" (click)="onDelete(s)">
+									<i class="fas fa-trash"></i>
+								</button>
+							</td>
+						</tr>
 
-        <!-- Si luego metes paginación, aquí queda perfecto -->
-        <small class="text-muted">
-          Total: {{ (suppliers$ | async)?.length || 0 }}
-        </small>
-      </div>
-    </div>
-  </section>
+						<tr *ngIf="(suppliers$ | async)?.length === 0">
+							<td colspan="9" class="text-center text-muted p-4">No suppliers found.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="card-footer d-flex justify-content-between align-items-center">
+				<!-- <small class="text-muted">Data source: SupplierService</small> -->
+
+				<!-- Si luego metes paginación, aquí queda perfecto -->
+				<small class="text-muted"> Total: {{ (suppliers$ | async)?.length || 0 }} </small>
+			</div>
+		</div>
+	</section>
 </div>

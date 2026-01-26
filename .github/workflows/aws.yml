@@ -1,0 +1,102 @@
+name: Deploy Angular Frontend to S3 + Invalidate CloudFront
+
+on:
+  push:
+    branches:
+      - main
+      - qa
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    environment: ${{
+      github.ref_name == 'main' && 'production' ||
+      github.ref_name == 'qa' && 'qa'  }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.2
+
+      - name: Clean and install dependencies
+        run: |
+          rm -rf node_modules
+          npm cache clean --force
+          npm cache verify
+          npm install --no-audit --no-fund
+
+      - name: Set correct env.json for environment
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            cp src/assets/env.prd.json src/assets/env.json
+          elif [[ "${GITHUB_REF_NAME}" == "qa" ]]; then
+            cp src/assets/env.qa.json src/assets/env.json
+          fi
+
+      - name: Build Angular app
+        run: npm run build -- --configuration production
+
+      # JS/CSS (caché largo, no borra nada más)
+      - name: Sync JS & CSS only (immutable, 1y)
+        uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: >-
+            --delete
+            --exclude '*'
+            --include '*.js'
+            --include '*.css'
+            --exclude '*.map'
+            --include 'assets/*'
+            --include 'assets/**'
+            --include '*.webmanifest'
+            --include '*.ico'
+            --include '*.png'
+            --include '*.jpg'
+            --include '*.jpeg'
+            --include '*.svg'
+            --include '*.txt'
+            --include '*.json'
+            --cache-control 'public,max-age=31536000,immutable'
+        env:
+          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          SOURCE_DIR: dist/AppTuVistazoWeb/browser
+
+      # HTML (vida corta, sin borrar nada)
+      - name: Sync HTML only (no-cache)
+        uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: >-
+            --delete
+            --exclude '*'
+            --include '*.html'
+            --cache-control 'no-cache'
+        env:
+          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          SOURCE_DIR: dist/AppTuVistazoWeb/browser
+
+      # 1) Assets inmutables (365d) — NO tocar HTML aquí
+      # - name: Upload immutable assets
+      #   run: |
+      #     aws s3 sync "$DIST_DIR" "s3://$BUCKET" \
+      #       --exclude "*.html" \
+      #       --cache-control "public,max-age=31536000,immutable" \
+      #       --delete
+      # 3) (Opcional) Invalidar solo HTML cuando realmente lo necesites
+      #    Si quieres CERO golpes al origen, elimina completamente este paso.
+      #- name: Invalidate only HTML
+      #  if: ${{ github.ref_name == 'main' || github.ref_name == 'qa' }}
+      #  run: |
+      #    aws cloudfront create-invalidation \
+      #      --distribution-id "$DIST_ID" \
+      #      --paths "/index.html" "/404.html" "/manifest.webmanifest"

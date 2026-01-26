@@ -1,25 +1,26 @@
-// This file is required by karma.conf.js and loads recursively all the .spec and framework files
-
-import 'zone.js/dist/zone-testing';
+import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
+  platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
-declare const require: {
-  context(path: string, deep?: boolean, filter?: RegExp): {
-    keys(): string[];
-    <T>(id: string): T;
-  };
-};
-
-// First, initialize the Angular testing environment.
+// Inicializa entorno de pruebas
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting()
+  platformBrowserDynamicTesting(),
+  {
+    teardown: { destroyAfterEach: true }
+  }
 );
-// Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
-context.keys().map(context);
+
+// 👇 Importa tus pruebas manualmente aquí
+import './app/main/ayudasocial/components/modal-create-socialhelppost/modal-create-socialhelppost.component.spec';
+import './app/main/alquiler/components/modal-create-rentpost/modal-create-rentpost.component.spec';
+import './app/main/myprofile/myposts/myposts.component.spec';
+import './app/main/myprofile/myfavorites/myfavorites.component.spec';
+import './app/main/myprofile/tyc/tyc.component.spec';
+import './app/main/alquiler/alquiler.component.spec';
+import './app/main/suscription/suscription.component.spec';
+import './app/app.component.spec';
+// Agrega más archivos si tienes otras pruebas

@@ -8,7 +8,8 @@ import bootstrap from './src/main.server';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const serverDistFolder = join(process.cwd(), 'dist/stracon-app/browser');
+  // const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+  const serverDistFolder = join(process.cwd(), 'dist/StraconSupplierWeb/browser');
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 

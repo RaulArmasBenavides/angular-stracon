@@ -1,1 +1,132 @@
-<p>modal-edit-supplier works!</p>
+<div class="content-wrapper">
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>Editar proveedor</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a [routerLink]="['/main']">Home</a></li>
+						<li class="breadcrumb-item"><a [routerLink]="['/main/suppliers']">Suppliers</a></li>
+						<li class="breadcrumb-item active">Edit</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="content" *ngIf="supplier$ | async as s; else loading">
+		<div class="card">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<!-- <h3 class="card-title">{{ s.name }}</h3> -->
+				<button class="btn btn-sm btn-secondary" type="button" (click)="back()"><i class="fas fa-arrow-left"></i> Volver</button>
+			</div>
+
+			<div class="card-body">
+				<div class="row">
+					<!-- FOTO -->
+					<div class="col-md-4">
+						<div class="card card-outline card-secondary">
+							<div class="card-body text-center">
+								<img [src]="getPhotoUrl(s)" class="img-fluid img-thumbnail" style="max-height: 220px; object-fit: cover" alt="Supplier" />
+								<div class="mt-3 text-left">
+									<label class="btn btn-outline-secondary btn-sm mb-0">
+										<i class="fas fa-image"></i> Elegir imagen
+										<input type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
+									</label>
+
+									<button class="btn btn-primary btn-sm ml-2" type="button" (click)="uploadPhoto(s.id)" [disabled]="!selectedFile || isUploading">
+										<i class="fas fa-cloud-upload-alt"></i>
+										{{ isUploading ? 'Subiendo...' : 'Subir' }}
+									</button>
+								</div>
+
+								<small class="text-muted d-block mt-2">PhotoId: {{ s.photoId || '-' }}</small>
+							</div>
+						</div>
+
+						<!-- <div class="mt-2">
+							<span class="badge" [ngClass]="s.isApproved ? 'badge-success' : 'badge-secondary'">
+								{{ s.isApproved ? 'Approved' : 'Pending' }}
+							</span>
+							<small class="text-muted ml-2">ApprovedBy: {{ s.approvedBy || '-' }}</small>
+						</div> -->
+					</div>
+
+					<!-- FIELDS (solo lectura por ahora) -->
+					<div class="col-md-8">
+						<div class="form-group">
+							<label>Nombre</label>
+							<input class="form-control" [value]="s.name" readonly />
+						</div>
+
+						<div class="form-group">
+							<label>Dirección</label>
+							<input class="form-control" [value]="s.address" readonly />
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>Email</label>
+								<input class="form-control" [value]="s.email" readonly />
+							</div>
+							<div class="form-group col-md-6">
+								<label>Celular</label>
+								<input class="form-control" [value]="s.phone" readonly />
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-4">
+								<label>Creado</label>
+								<input class="form-control" [value]="(s.createdAt | date:'yyyy-MM-dd HH:mm')" readonly />
+							</div>
+							<div class="form-group col-md-4">
+								<label>Creado por</label>
+								<input class="form-control" [value]="s.createdBy || '-'" readonly />
+							</div>
+							<div class="form-group col-md-4">
+								<label>Aprobado en</label>
+								<input class="form-control" [value]="s.approvedAt ? (s.approvedAt | date:'yyyy-MM-dd HH:mm') : '-'" readonly />
+							</div>
+
+              		<div class="form-group col-md-4">
+								<label>Aprobado por</label>
+								<input class="form-control" [value]="s.approvedBy" readonly />
+							</div>
+						</div>
+
+						<!-- Botones POC -->
+						<div class="d-flex justify-content-end" style="gap: 8px">
+							<button class="btn btn-secondary" type="button" (click)="back()">Cerrar</button>
+							<button
+								class="btn btn-success"
+								type="button"
+								(click)="approve()"
+								[disabled]="!s || s.isApproved || isApproving"
+								title="Aprobar proveedor"
+							>
+								<i class="fas fa-check"></i>
+								{{ isApproving ? 'Aprobando...' : (s.isApproved ? 'Aprobado' : 'Aprobar') }}
+							</button>
+
+							<button class="btn btn-primary" type="button" disabled>Guardar (pendiente)</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ng-template #loading>
+		<section class="content">
+			<div class="card">
+				<div class="card-body text-center py-4">
+					<i class="fas fa-spinner fa-spin fa-2x"></i>
+					<p class="mt-2 mb-0">Cargando proveedor...</p>
+				</div>
+			</div>
+		</section>
+	</ng-template>
+</div>

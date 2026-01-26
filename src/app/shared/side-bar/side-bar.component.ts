@@ -1,13 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
-  selector: 'app-side-bar',
-  templateUrl: './side-bar.component.html',
-  styleUrls: ['./side-bar.component.css'],
-  standalone: false,
+	selector: 'app-side-bar',
+	templateUrl: './side-bar.component.html',
+	styleUrls: ['./side-bar.component.css'],
+	standalone: false
 })
 export class SideBarComponent implements OnInit {
-  constructor() {}
+	constructor() {}
+	readonly auth = inject(AuthService);
+	private readonly router = inject(Router);
+	ngOnInit(): void {}
 
-  ngOnInit(): void {}
+	onLogout(): void {
+		this.auth.logout();
+		this.router.navigate(['/login']);
+	}
 }

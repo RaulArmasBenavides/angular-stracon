@@ -4,8 +4,8 @@ import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+// import { MaterialModule } from './shared/material/material.module';
 import { httpErrorInterceptor } from './core/interceptors/http-error.interceptor';
-
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -20,6 +20,5 @@ export const appConfig: ApplicationConfig = {
 		),
 		provideHttpClient(withFetch(), withInterceptors([httpErrorInterceptor])),
 		provideAnimations(), // puedes cambiar por provideAnimationsAsync() si prefieres carga diferida
-
 	]
 };
