@@ -1,19 +1,14 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, delay, map } from 'rxjs/operators';
 import { User } from '../models/user.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class UsersService {
-	private readonly users: User[] = [
-		{ id: 1, fullName: 'Ana Torres', email: 'ana@demo.com', role: 'Admin', status: 'Active', createdAt: '2025-12-12' },
-		{ id: 2, fullName: 'Luis Ramos', email: 'luis@demo.com', role: 'User', status: 'Active', createdAt: '2025-11-02' },
-		{ id: 3, fullName: 'Carla Vega', email: 'carla@demo.com', role: 'Support', status: 'Inactive', createdAt: '2025-10-18' },
-		{ id: 4, fullName: 'Mario Paredes', email: 'mario@demo.com', role: 'User', status: 'Active', createdAt: '2026-01-05' }
-	];
 	private readonly http = inject(HttpClient);
 	private readonly auth = inject(AuthService);
 	private authHeaders(): HttpHeaders | undefined {
@@ -21,8 +16,26 @@ export class UsersService {
 		return token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
 	}
 	getUsers(): Observable<User[]> {
-		// delay para simular llamada HTTP
-		return of(this.users).pipe(delay(250));
+		const headers = this.authHeaders();
+
+		if (!headers) {
+			return throwError(() => new Error('No hay token de autenticación'));
+		}
+
+		return this.http.get<User[]>(`${environment.apiUrl}/users`, { headers }).pipe(
+			map((response: any) => {
+				// Si la respuesta tiene una estructura diferente, ajusta aquí
+				// Ejemplo: si la respuesta es { data: [], message: 'success' }
+				if (response.result && Array.isArray(response.result)) {
+					return response.result;
+				}
+				return [];
+			}),
+			catchError((error: HttpErrorResponse) => {
+				console.error('Error obteniendo usuarios:', error);
+				return throwError(() => new Error(`Error al obtener usuarios: ${error.status} ${error.statusText}`));
+			})
+		);
 	}
 
 	// opcional: filtro simple por texto
