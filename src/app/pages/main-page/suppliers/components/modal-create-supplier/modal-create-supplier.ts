@@ -86,7 +86,7 @@ export class ModalCreateSupplier {
 		if (this.previewUrl) {
 			return this.previewUrl;
 		}
-		return 'assets/img/template/no-image.png';
+		return 'assets/img/default-supplier.png';
 	}
 
 	// Enviar formulario

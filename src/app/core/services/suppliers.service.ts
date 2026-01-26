@@ -91,7 +91,10 @@ export class SupplierService {
 
 	// ======= DELETE =======
 	deleteSupplier(id: string): Observable<void> {
-		return this.http.delete<void>(`${this.baseUrl}/${encodeURIComponent(id)}`);
+	return this.http.delete<void>(
+		`${environment.apiUrl}/suppliers/${encodeURIComponent(id)}`,
+		{ headers: this.authHeaders() }
+	);
 	}
 
 	uploadSupplierPhoto(id: string, file: File) {

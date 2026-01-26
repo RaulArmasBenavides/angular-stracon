@@ -45,10 +45,15 @@ export class Suppliers {
 	}
 
 	onDelete(s: Supplier): void {
-		// TODO: delete endpoint
-		console.log('delete', s);
+	this.supplierService.deleteSupplier(s.id).subscribe({
+		next: () => {
+		this.load(); // recarga la lista
+		},
+		error: (err) => {
+		console.error('Error al eliminar proveedor', err);
+		}
+	});
 	}
-
 	onCreate() {
 		this.router.navigate(['/main/suppliers', 'create']);
 	}

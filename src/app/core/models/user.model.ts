@@ -4,5 +4,5 @@ export interface User {
   email: string;
   role: 'Admin' | 'User' | 'Support';
   status: 'Active' | 'Inactive';
-  createdAt: string; // ISO string o 'YYYY-MM-DD'
+  created: string; // ISO string o 'YYYY-MM-DD'
 }

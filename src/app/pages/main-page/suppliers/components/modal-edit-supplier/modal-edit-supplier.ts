@@ -30,12 +30,14 @@ export class ModalEditSupplier {
 		this.router.navigate(['/main/suppliers']);
 	}
 
-	getPhotoUrl(s: Supplier): string {
-		// Placeholder
-		if (!s.photo) return 'assets/img/template/no-image.png';
-		// if (s.photo.startsWith('http')) return s.photo;
-		return 'assets/img/template/no-image.png';
+	getPhotoUrl(supplier: any): string {
+		if (!supplier?.photo) {
+		return '/assets/img/default-supplier.png'; // Imagen por defecto
+		}
+		
+	return supplier.photo;
 	}
+	
 
 	onFileSelected(event: Event): void {
 		const input = event.target as HTMLInputElement;
