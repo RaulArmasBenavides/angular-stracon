@@ -26,10 +26,6 @@ export class SupplierService {
 	}
 	// ======= GET =======
 	getSuppliers(): Observable<Supplier[]> {
-		const token = this.auth.getToken();
-
-		const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
-
 		return this.http.get<Supplier[]>(`${environment.apiUrl}/suppliers`, { headers: this.authHeaders() });
 	}
 	getSupplierById(id: string): Observable<Supplier> {
