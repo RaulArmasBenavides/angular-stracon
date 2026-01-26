@@ -9,3 +9,12 @@ Para levantar el proyecto
 Probar con los siguientes usuarios 
 user : admin@stracon.com 
 password:  Dsr1#tec
+
+
+Registro de proveedores
+
+<img width="1600" height="727" alt="image" src="https://github.com/user-attachments/assets/b32e343c-d3d2-4e7d-8db7-83eeb9b8fdb0" />
+
+Listado de proveedores 
+
+<img width="1600" height="718" alt="image" src="https://github.com/user-attachments/assets/6f232b93-452a-4fb7-829e-a1ebc9bc8e32" />
