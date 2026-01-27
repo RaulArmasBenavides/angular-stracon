@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Observable, startWith, map } from 'rxjs';
 import { Supplier } from 'src/app/core/models/supplier.model';
@@ -12,7 +12,7 @@ import { ModalEditSupplier } from './components/modal-edit-supplier/modal-edit-s
 	templateUrl: './suppliers.html',
 	styleUrl: './suppliers.css'
 })
-export class Suppliers {
+export class Suppliers implements OnInit {
 	private readonly supplierService = inject(SupplierService);
 	private readonly router = inject(Router);
 	suppliers$!: Observable<Supplier[]>;
@@ -45,14 +45,14 @@ export class Suppliers {
 	}
 
 	onDelete(s: Supplier): void {
-	this.supplierService.deleteSupplier(s.id).subscribe({
-		next: () => {
-		this.load(); // recarga la lista
-		},
-		error: (err) => {
-		console.error('Error al eliminar proveedor', err);
-		}
-	});
+		this.supplierService.deleteSupplier(s.id).subscribe({
+			next: () => {
+				this.load(); // recarga la lista
+			},
+			error: (err) => {
+				console.error('Error al eliminar proveedor', err);
+			}
+		});
 	}
 	onCreate() {
 		this.router.navigate(['/main/suppliers', 'create']);

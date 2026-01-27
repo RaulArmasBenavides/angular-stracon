@@ -1,91 +1,78 @@
 <div class="content-wrapper">
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Usuarios</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
-            <li class="breadcrumb-item active">Users</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </section>
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>Usuarios</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+						<li class="breadcrumb-item active">Users</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</section>
 
-  <section class="content">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Usuarios</h3>
+	<section class="content">
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">Usuarios</h3>
 
-        <div class="card-tools d-flex" style="gap: 8px;">
-          <div class="input-group input-group-sm" style="width: 240px;">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search..."
-              (keyup.enter)="onSearch()"
-              aria-label="Search users"
-            />
-            <div class="input-group-append">
-              <button class="btn btn-default" type="button" (click)="onSearch()">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
+				<div class="card-tools d-flex" style="gap: 8px">
+					<div class="input-group input-group-sm" style="width: 240px">
+						<input type="text" class="form-control" placeholder="Search..." (keyup.enter)="onSearch()" aria-label="Search users" />
+						<div class="input-group-append">
+							<button class="btn btn-default" type="button" (click)="onSearch()">
+								<i class="fas fa-search"></i>
+							</button>
+						</div>
+					</div>
 
-          <button class="btn btn-tool" type="button" data-card-widget="collapse" title="Collapse">
-            <i class="fas fa-minus"></i>
-          </button>
-        </div>
-      </div>
+					<button class="btn btn-tool" type="button" data-card-widget="collapse" title="Collapse">
+						<i class="fas fa-minus"></i>
+					</button>
+          <button class="btn btn-primary btn-sm" type="button" (click)="onCreate()"><i class="fas fa-plus"></i> Nuevo</button>
+				</div>
 
-      <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
-          <thead>
-            <tr>
-              <th style="width: 80px;">ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th style="width: 120px;">Role</th>
-              <th style="width: 120px;">Status</th>
-              <th style="width: 140px;">Created</th>
-            </tr>
-          </thead>
+			</div>
 
-          <tbody>
-            <tr *ngFor="let u of (users$ | async)">
-              <td>{{ u.id }}</td>
-              <td>{{ u.fullName }}</td>
-              <td>{{ u.email }}</td>
-              <td>
-                <span class="badge badge-info">{{ u.role }}</span>
-              </td>
-              <td>
-                <span
-                  class="badge"
-                  [ngClass]="u.status === 'Active' ? 'badge-success' : 'badge-secondary'"
-                >
-                  {{ u.status }}
-                </span>
-              </td>
-              <td>{{ u.created }}</td>
-            </tr>
+			<div class="card-body table-responsive p-0">
+				<table class="table table-hover text-nowrap">
+					<thead>
+						<tr>
+							<th style="width: 80px">ID</th>
+							<th>Name</th>
+							<th>Email</th>
+							<th style="width: 120px">Role</th>
+							<th style="width: 120px">Status</th>
+							<th style="width: 140px">Created</th>
+						</tr>
+					</thead>
 
-            <tr *ngIf="(users$ | async)?.length === 0">
-              <td colspan="6" class="text-center text-muted p-4">
-                No users found.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+					<tbody>
+						<tr *ngFor="let u of (users$ | async)">
+							<td>{{ u.id }}</td>
+							<td>{{ u.fullName }}</td>
+							<td>{{ u.email }}</td>
+							<td>
+								<span class="badge badge-info">{{ u.role }}</span>
+							</td>
+							<td>
+								<span class="badge" [ngClass]="u.status === 'Active' ? 'badge-success' : 'badge-secondary'"> {{ u.status }} </span>
+							</td>
+							<td>{{ u.created }}</td>
+						</tr>
 
-      <div class="card-footer">
-        Data source: dummy service
-      </div>
-    </div>
-  </section>
+						<tr *ngIf="(users$ | async)?.length === 0">
+							<td colspan="6" class="text-center text-muted p-4">No users found.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="card-footer">Data source: dummy service</div>
+		</div>
+	</section>
 </div>

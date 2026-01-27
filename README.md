@@ -10,6 +10,11 @@ Login
 
 
 Probar con los siguientes usuarios 
+
+Rol de colocador de solicitudes de proveedores 
+user :requester@stracon.com 
+password:  Dsr1#tec
+
 user : admin@stracon.com 
 password:  Dsr1#tec
 

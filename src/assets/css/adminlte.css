@@ -21817,20 +21817,20 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
-  height: 100vh;
+  height: 80vh;
   -ms-flex-pack: center;
   justify-content: center;
 }
 
 .login-box,
 .register-box {
-  width: 360px;
+  width: 560px;
 }
 
 @media (max-width: 576px) {
   .login-box,
   .register-box {
-    margin-top: .5rem;
+    margin-top: .25rem;
     width: 90%;
   }
 }

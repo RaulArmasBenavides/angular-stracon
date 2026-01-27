@@ -7,6 +7,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LoginRequest } from 'src/app/core/models/auth.model';
+import { AlertHelper } from 'src/app/helper/alert.helper';
 
 @Component({
 	selector: 'app-login',
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit {
 	constructor(
 		@Inject(PLATFORM_ID) private readonly platformId: Object,
 		private readonly router: Router,
-
+		private readonly alert: AlertHelper,
 		private readonly loginService: AuthService
 	) {}
 
@@ -63,8 +64,8 @@ export class LoginComponent implements OnInit {
 			},
 			(err) => {
 				this.isLoading = false;
-				console.error('error');
-				//this.alert.notify('Usuario o password incorrectos', 'warning');
+
+				this.alert.notify('Usuario o password incorrectos', 'warning');
 			}
 		);
 	}

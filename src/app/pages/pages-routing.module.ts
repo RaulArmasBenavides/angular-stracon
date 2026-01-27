@@ -7,6 +7,7 @@ import { Error404Component } from './main-page/error404/error404.component';
 import { Suppliers } from './main-page/suppliers/suppliers';
 import { ModalEditSupplier } from './main-page/suppliers/components/modal-edit-supplier/modal-edit-supplier';
 import { ModalCreateSupplier } from './main-page/suppliers/components/modal-create-supplier/modal-create-supplier';
+import { ModalCreateUserComponent } from './main-page/users/modal-create-user/modal-create-user.component';
 
 const routes: Routes = [
 	{
@@ -15,7 +16,7 @@ const routes: Routes = [
 		children: [
 			{ path: '', component: Suppliers },
 			{ path: 'users', loadChildren: () => import('./main-page/users/users.module').then((m) => m.UsersModule) },
-
+			{ path: 'users/create', component: ModalCreateUserComponent },
 			{ path: 'suppliers', component: Suppliers },
 			{ path: 'suppliers/:id/edit', component: ModalEditSupplier },
 			{ path: 'suppliers/create', component: ModalCreateSupplier },

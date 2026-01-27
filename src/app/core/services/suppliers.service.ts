@@ -91,10 +91,7 @@ export class SupplierService {
 
 	// ======= DELETE =======
 	deleteSupplier(id: string): Observable<void> {
-	return this.http.delete<void>(
-		`${environment.apiUrl}/suppliers/${encodeURIComponent(id)}`,
-		{ headers: this.authHeaders() }
-	);
+		return this.http.delete<void>(`${environment.apiUrl}/suppliers/${encodeURIComponent(id)}`, { headers: this.authHeaders() });
 	}
 
 	uploadSupplierPhoto(id: string, file: File) {
@@ -103,5 +100,13 @@ export class SupplierService {
 
 		const headers = this.authHeaders(); // OJO: NO pongas Content-Type, el browser lo setea
 		return this.http.post(`${environment.apiUrl}/suppliers/${id}/photo`, form, { headers });
+	}
+
+	approveSupplier(id: string): Observable<Supplier> {
+		return this.http.post<Supplier>(
+			`${environment.apiUrl}/suppliers/${encodeURIComponent(id)}/approve`,
+			null, // no body
+			{ headers: this.authHeaders() }
+		);
 	}
 }
