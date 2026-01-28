@@ -47,12 +47,77 @@ export class UsersService {
 					? list
 					: list.filter(
 							(x) =>
-								x.fullName.toLowerCase().includes(t) ||
+								x.userName.toLowerCase().includes(t) ||
 								x.email.toLowerCase().includes(t) ||
 								x.role.toLowerCase().includes(t) ||
 								x.status.toLowerCase().includes(t)
 						)
 			)
 		);
+	}
+
+	createUser(userData: { userName: string; email: string; password: string; role: string }): Observable<any> {
+		const headers = this.authHeaders();
+
+		if (!headers) {
+			return throwError(() => new Error('No hay token de autenticación'));
+		}
+
+		// Configurar headers para JSON
+		const jsonHeaders = headers.set('Content-Type', 'application/json');
+
+		return this.http
+			.post(`${environment.apiUrl}/users`, userData, {
+				headers: jsonHeaders,
+				observe: 'response' // Para obtener toda la respuesta, incluyendo headers
+			})
+			.pipe(
+				map((response: any) => {
+					// Procesar la respuesta según la estructura de tu API
+					console.log('Respuesta completa:', response);
+
+					if (response.status === 201 || response.status === 200) {
+						// Si tu API devuelve los datos en un campo específico (como 'result')
+						if (response.body?.result) {
+							return response.body.result;
+						}
+						// Si devuelve directamente el objeto usuario
+						if (response.body) {
+							return response.body;
+						}
+						// Si solo necesitas confirmación
+						return { success: true, message: 'Usuario creado exitosamente' };
+					}
+
+					throw new Error('Respuesta inesperada del servidor');
+				}),
+				catchError((error: HttpErrorResponse) => {
+					console.error('Error creando usuario:', error);
+
+					let errorMessage = 'Error al crear usuario';
+
+					if (error.status === 400) {
+						errorMessage = 'Datos inválidos. Verifique la información ingresada';
+					} else if (error.status === 409) {
+						errorMessage = 'El nombre de usuario o email ya existe';
+					} else if (error.status === 401) {
+						errorMessage = 'No autorizado. Por favor inicie sesión nuevamente';
+					} else if (error.status === 403) {
+						errorMessage = 'No tiene permisos para crear usuarios';
+					} else if (error.error?.message) {
+						errorMessage = error.error.message;
+					} else if (error.error?.errors) {
+						// Si hay errores de validación específicos
+						const validationErrors = error.error.errors;
+						errorMessage =
+							'Errores de validación: ' +
+							Object.keys(validationErrors)
+								.map((key) => `${key}: ${validationErrors[key]}`)
+								.join(', ');
+					}
+
+					return throwError(() => new Error(errorMessage));
+				})
+			);
 	}
 }

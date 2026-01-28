@@ -43,10 +43,10 @@
 					<thead>
 						<tr>
 							<th style="width: 80px">ID</th>
-							<th>Name</th>
+							<th>Nombre</th>
 							<th>Email</th>
-							<th style="width: 120px">Role</th>
-							<th style="width: 120px">Status</th>
+							<th style="width: 120px">Rol</th>
+							<th style="width: 120px">Estado</th>
 							<th style="width: 140px">Created</th>
 						</tr>
 					</thead>
@@ -54,7 +54,7 @@
 					<tbody>
 						<tr *ngFor="let u of (users$ | async)">
 							<td>{{ u.id }}</td>
-							<td>{{ u.fullName }}</td>
+							<td>{{ u.userName }}</td>
 							<td>{{ u.email }}</td>
 							<td>
 								<span class="badge badge-info">{{ u.role }}</span>
