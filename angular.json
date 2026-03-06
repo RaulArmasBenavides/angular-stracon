@@ -21,8 +21,20 @@
 						"index": "src/index.html",
 						"polyfills": ["zone.js"],
 						"tsConfig": "tsconfig.app.json",
-						"assets": ["src/favicon.ico", "src/assets"],
-						"styles": ["@angular/material/prebuilt-themes/indigo-pink.css", "src/styles.css"],
+						"assets": [
+							"src/favicon.ico",
+							"src/assets",
+							{
+								"glob": "**/*",
+								"input": "node_modules/@fortawesome/fontawesome-free/webfonts",
+								"output": "/assets/webfonts"
+							}
+						],
+						"styles": [
+							"node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+							"node_modules/admin-lte/dist/css/adminlte.min.css",
+							"src/styles.css"
+						],
 						"scripts": [],
 						"browser": "src/main.ts"
 					},
@@ -81,7 +93,16 @@
 						"main": "src/test.ts",
 						"tsConfig": "tsconfig.spec.json",
 						"karmaConfig": "karma.conf.cjs",
-						"assets": ["src/favicon.ico", "src/assets"],
+						"assets": [
+							"src/favicon.ico",
+							"src/assets",
+
+							{
+								"glob": "**/*",
+								"input": "node_modules/@fortawesome/fontawesome-free/webfonts",
+								"output": "/assets/webfonts"
+							}
+						],
 						"polyfills": ["zone.js", "zone.js/testing"],
 						"styles": ["@angular/material/prebuilt-themes/indigo-pink.css", "src/styles.css"],
 						"scripts": []

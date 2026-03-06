@@ -4,7 +4,6 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
-import { SharedModule } from 'src/app/shared/shared.module';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LoginRequest } from 'src/app/core/models/auth.model';
 import { AlertHelper } from 'src/app/helper/alert.helper';
@@ -13,7 +12,7 @@ import { AlertHelper } from 'src/app/helper/alert.helper';
 	selector: 'app-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.css'],
-	imports: [CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
+	imports: [CommonModule, FormsModule, ReactiveFormsModule],
 	standalone: true
 })
 export class LoginComponent implements OnInit {

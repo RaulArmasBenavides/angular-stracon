@@ -10,7 +10,8 @@ import { ModalEditSupplier } from './components/modal-edit-supplier/modal-edit-s
 	selector: 'app-suppliers',
 	imports: [CommonModule, RouterModule],
 	templateUrl: './suppliers.html',
-	styleUrl: './suppliers.css'
+	styleUrl: './suppliers.css',
+	standalone: true
 })
 export class Suppliers implements OnInit {
 	private readonly supplierService = inject(SupplierService);

@@ -1,20 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { filter } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [RouterOutlet],
+	imports: [RouterModule],
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-	constructor(
-		private readonly router: Router,
-	) {}
+	constructor(private readonly router: Router) {}
 
-	ngOnInit(): void {
-
-	}
+	ngOnInit(): void {}
 }

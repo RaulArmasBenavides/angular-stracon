@@ -1,19 +1,18 @@
-<div class="wrapper">
-  
-  <!-- Navbar -->
-  <app-nav-bar></app-nav-bar>
-  <!-- /.navbar -->
+<div class="app-wrapper sidebar-expand-lg"
+     [class.sidebar-collapsed]="collapsed">
 
-  <!-- Main Sidebar Container -->
+  <app-nav-bar (toggleSidebar)="toggleSidebar()"></app-nav-bar>
+
   <app-side-bar></app-side-bar>
 
-  <router-outlet></router-outlet>
+  <main class="app-main">
+    <div class="container-fluid pt-3">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
 
-  <app-footer></app-footer>
+  <footer class="app-footer text-center">
+    <strong>Copyright © 2024 Stracon</strong>
+  </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
 </div>
