@@ -62,22 +62,20 @@
 					</thead>
 
 					<tbody>
-						<tr *ngFor="let s of (suppliers$ | async)">
+						@for (s of (suppliers$ | async); track s) {
+						<tr>
 							<td class="text-truncate" style="max-width: 90px" title="{{ s.id }}">{{ s.id }}</td>
 							<td>{{ s.name }}</td>
 							<td class="text-truncate" style="max-width: 260px" title="{{ s.address }}">{{ s.address }}</td>
 							<td>{{ s.email }}</td>
 							<td>{{ s.phone }}</td>
-
 							<td>
 								<span class="badge" [ngClass]="s.isApproved ? 'badge-success' : 'badge-secondary'">
 									{{ s.isApproved ? 'Approved' : 'Pending' }}
 								</span>
 							</td>
-
 							<td>{{ s.createdAt | date: 'yyyy-MM-dd HH:mm' }}</td>
 							<td>{{ s.approvedBy || '-' }}</td>
-
 							<td class="text-right">
 								<button class="btn btn-sm btn-primary mr-1" type="button" (click)="onEdit(s)">
 									<i class="fas fa-pen"></i>
@@ -87,10 +85,11 @@
 								</button>
 							</td>
 						</tr>
-
-						<tr *ngIf="(suppliers$ | async)?.length === 0">
+						} @if ((suppliers$ | async)?.length === 0) {
+						<tr>
 							<td colspan="9" class="text-center text-muted p-4">No suppliers found.</td>
 						</tr>
+						}
 					</tbody>
 				</table>
 			</div>

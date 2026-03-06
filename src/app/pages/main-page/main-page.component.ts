@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from 'src/app/shared/footer/footer.component';
@@ -9,7 +8,7 @@ import { SideBarComponent } from 'src/app/shared/side-bar/side-bar.component';
 	selector: 'app-main-page',
 	templateUrl: './main-page.component.html',
 	styleUrls: ['./main-page.component.css'],
-	imports: [RouterModule, CommonModule, SideBarComponent, NavBarComponent],
+	imports: [RouterModule, SideBarComponent, NavBarComponent],
 	standalone: true
 })
 export class MainPageComponent implements OnInit {

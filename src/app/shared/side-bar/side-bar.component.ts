@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -7,7 +6,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 	selector: 'app-side-bar',
 	templateUrl: './side-bar.component.html',
 	styleUrls: ['./side-bar.component.css'],
-	imports: [CommonModule, RouterModule],
+	imports: [RouterModule],
 	standalone: true
 })
 export class SideBarComponent implements OnInit {

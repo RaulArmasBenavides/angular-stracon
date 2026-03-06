@@ -16,13 +16,13 @@
 		</div>
 	</section>
 
-	<section class="content" *ngIf="supplier$ | async as s; else loading">
+	@if (supplier$ | async; as s) {
+	<section class="content">
 		<div class="card">
 			<div class="card-header d-flex justify-content-between align-items-center">
 				<!-- <h3 class="card-title">{{ s.name }}</h3> -->
 				<button class="btn btn-sm btn-secondary" type="button" (click)="back()"><i class="fas fa-arrow-left"></i> Volver</button>
 			</div>
-
 			<div class="card-body">
 				<div class="row">
 					<!-- FOTO -->
@@ -35,37 +35,31 @@
 										<i class="fas fa-image"></i> Elegir imagen
 										<input type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
 									</label>
-
 									<button class="btn btn-primary btn-sm ml-2" type="button" (click)="uploadPhoto(s.id)" [disabled]="!selectedFile || isUploading">
 										<i class="fas fa-cloud-upload-alt"></i>
 										{{ isUploading ? 'Subiendo...' : 'Subir' }}
 									</button>
 								</div>
-
 								<small class="text-muted d-block mt-2">PhotoId: {{ s.photo || '-' }}</small>
 							</div>
 						</div>
-
 						<!-- <div class="mt-2">
-							<span class="badge" [ngClass]="s.isApproved ? 'badge-success' : 'badge-secondary'">
-								{{ s.isApproved ? 'Approved' : 'Pending' }}
-							</span>
-							<small class="text-muted ml-2">ApprovedBy: {{ s.approvedBy || '-' }}</small>
-						</div> -->
+              <span class="badge" [ngClass]="s.isApproved ? 'badge-success' : 'badge-secondary'">
+                {{ s.isApproved ? 'Approved' : 'Pending' }}
+              </span>
+              <small class="text-muted ml-2">ApprovedBy: {{ s.approvedBy || '-' }}</small>
+            </div> -->
 					</div>
-
 					<!-- FIELDS (solo lectura por ahora) -->
 					<div class="col-md-8">
 						<div class="form-group">
 							<label>Nombre</label>
 							<input class="form-control" [value]="s.name" readonly />
 						</div>
-
 						<div class="form-group">
 							<label>Dirección</label>
 							<input class="form-control" [value]="s.address" readonly />
 						</div>
-
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Email</label>
@@ -76,7 +70,6 @@
 								<input class="form-control" [value]="s.phone" readonly />
 							</div>
 						</div>
-
 						<div class="form-row">
 							<div class="form-group col-md-4">
 								<label>Creado</label>
@@ -90,18 +83,16 @@
 								<label>Aprobado en</label>
 								<input class="form-control" [value]="s.approvedAt ? (s.approvedAt | date:'yyyy-MM-dd HH:mm') : '-'" readonly />
 							</div>
-
 							<div class="form-group col-md-4">
 								<label>Aprobado por</label>
 								<input class="form-control" [value]="s.approvedBy" readonly />
 							</div>
 						</div>
-
 						<!-- Botones POC -->
 						<div class="d-flex justify-content-end" style="gap: 8px">
 							<button class="btn btn-secondary" type="button" (click)="back()">Cerrar</button>
+							@if (isApprover) {
 							<button
-								*ngIf="isApprover"
 								class="btn btn-success"
 								type="button"
 								(click)="approve()"
@@ -111,6 +102,7 @@
 								<i class="fas fa-check"></i>
 								{{ isApproving ? 'Aprobando...' : (s.isApproved ? 'Aprobado' : 'Aprobar') }}
 							</button>
+							}
 							<button class="btn btn-primary" type="button" disabled>Guardar (pendiente)</button>
 						</div>
 					</div>
@@ -118,15 +110,14 @@
 			</div>
 		</div>
 	</section>
-
-	<ng-template #loading>
-		<section class="content">
-			<div class="card">
-				<div class="card-body text-center py-4">
-					<i class="fas fa-spinner fa-spin fa-2x"></i>
-					<p class="mt-2 mb-0">Cargando proveedor...</p>
-				</div>
+	} @else {
+	<section class="content">
+		<div class="card">
+			<div class="card-body text-center py-4">
+				<i class="fas fa-spinner fa-spin fa-2x"></i>
+				<p class="mt-2 mb-0">Cargando proveedor...</p>
 			</div>
-		</section>
-	</ng-template>
+		</div>
+	</section>
+	}
 </div>

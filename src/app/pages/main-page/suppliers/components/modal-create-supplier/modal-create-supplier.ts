@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -7,7 +6,7 @@ import { AlertHelper } from 'src/app/helper/alert.helper';
 
 @Component({
 	selector: 'app-modal-create-supplier',
-	imports: [CommonModule, RouterModule, ReactiveFormsModule],
+	imports: [RouterModule, ReactiveFormsModule],
 	templateUrl: './modal-create-supplier.html',
 	styleUrl: './modal-create-supplier.css'
 })

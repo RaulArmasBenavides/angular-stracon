@@ -33,9 +33,8 @@
 					<button class="btn btn-tool" type="button" data-card-widget="collapse" title="Collapse">
 						<i class="fas fa-minus"></i>
 					</button>
-          <button class="btn btn-primary btn-sm" type="button" (click)="onCreate()"><i class="fas fa-plus"></i> Nuevo</button>
+					<button class="btn btn-primary btn-sm" type="button" (click)="onCreate()"><i class="fas fa-plus"></i> Nuevo</button>
 				</div>
-
 			</div>
 
 			<div class="card-body table-responsive p-0">
@@ -52,7 +51,8 @@
 					</thead>
 
 					<tbody>
-						<tr *ngFor="let u of (users$ | async)">
+						@for (u of (users$ | async); track u) {
+						<tr>
 							<td>{{ u.id }}</td>
 							<td>{{ u.userName }}</td>
 							<td>{{ u.email }}</td>
@@ -64,10 +64,11 @@
 							</td>
 							<td>{{ u.created }}</td>
 						</tr>
-
-						<tr *ngIf="(users$ | async)?.length === 0">
+						} @if ((users$ | async)?.length === 0) {
+						<tr>
 							<td colspan="6" class="text-center text-muted p-4">No users found.</td>
 						</tr>
+						}
 					</tbody>
 				</table>
 			</div>

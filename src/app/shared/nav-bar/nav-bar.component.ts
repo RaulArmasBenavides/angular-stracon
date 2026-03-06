@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -6,7 +5,7 @@ import { RouterModule } from '@angular/router';
 	selector: 'app-nav-bar',
 	templateUrl: './nav-bar.component.html',
 	styleUrls: ['./nav-bar.component.css'],
-	imports: [CommonModule, RouterModule],
+	imports: [RouterModule],
 	standalone: true
 })
 export class NavBarComponent implements OnInit {

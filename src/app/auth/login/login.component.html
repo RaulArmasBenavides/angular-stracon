@@ -6,15 +6,7 @@
 				<div class="brand-logo mb-4">
 					<!-- Si tienes logo -->
 					<!-- <img src="assets/logo.png" alt="Logo" style="height: 80px; margin-bottom: 15px;"> -->
-					<div
-						style="
-							display: inline-block;
-							background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-							padding: 60px;
-							border-radius: 50%;
-
-						"
-					>
+					<div style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px; border-radius: 50%">
 						<i class="fas fa-lock fa-2x text-white"></i>
 					</div>
 					<h1 class="h2 font-weight-bold" style="color: #333; font-size: 2.2rem; margin-bottom: 5px">Stracon</h1>
@@ -24,146 +16,141 @@
 
 			<div class="card-body p-5">
 				<!-- Loading State -->
-				<ng-container *ngIf="!isLoading; else loadingTemplate">
-					<!-- LOGIN FORM -->
-					<div *ngIf="!isRecovering" class="login-form">
-						<p class="login-box-msg text-muted mb-4" style="font-size: 1.1rem; padding: 10px 0">
-							<i class="fas fa-sign-in-alt mr-2"></i>
-							Inicia sesión para continuar
-						</p>
-
-						<form [formGroup]="loginForm" (ngSubmit)="login()" class="needs-validation" novalidate>
-							<!-- Email Field -->
-							<div class="form-group mb-4">
-								<label for="email" class="form-label" style="font-weight: 600; color: #555; font-size: 0.95rem; margin-bottom: 8px">
-									<i class="fas fa-envelope mr-2"></i>Correo Electrónico
-								</label>
-								<div class="input-group" style="border-radius: 8px; overflow: hidden; border: 1px solid #ddd">
-									<input
-										type="email"
-										id="email"
-										class="form-control"
-										placeholder="usuario@ejemplo.com"
-										formControlName="email"
-										style="height: 50px; border: none; font-size: 1rem; padding-left: 15px"
-										[ngClass]="{
+				@if (!isLoading) {
+				<!-- LOGIN FORM -->
+				@if (!isRecovering) {
+				<div class="login-form">
+					<p class="login-box-msg text-muted mb-4" style="font-size: 1.1rem; padding: 10px 0">
+						<i class="fas fa-sign-in-alt mr-2"></i>
+						Inicia sesión para continuar
+					</p>
+					<form [formGroup]="loginForm" (ngSubmit)="login()" class="needs-validation" novalidate>
+						<!-- Email Field -->
+						<div class="form-group mb-4">
+							<label for="email" class="form-label" style="font-weight: 600; color: #555; font-size: 0.95rem; margin-bottom: 8px">
+								<i class="fas fa-envelope mr-2"></i>Correo Electrónico
+							</label>
+							<div class="input-group" style="border-radius: 8px; overflow: hidden; border: 1px solid #ddd">
+								<input
+									type="email"
+									id="email"
+									class="form-control"
+									placeholder="usuario@ejemplo.com"
+									formControlName="email"
+									style="height: 50px; border: none; font-size: 1rem; padding-left: 15px"
+									[ngClass]="{
                       'is-valid': loginForm.get('email')?.valid && loginForm.get('email')?.touched,
                       'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched
                     }"
-									/>
-									<div class="input-group-append">
-										<span class="input-group-text" style="background: white; border: none; padding-right: 15px">
-											<i class="fas fa-user-circle text-muted"></i>
-										</span>
-									</div>
-								</div>
-								<div
-									*ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-									class="invalid-feedback d-block mt-2"
-									style="font-size: 0.9rem; color: #dc3545"
-								>
-									<i class="fas fa-exclamation-circle mr-1"></i>
-									Por favor ingresa un correo electrónico válido
+								/>
+								<div class="input-group-append">
+									<span class="input-group-text" style="background: white; border: none; padding-right: 15px">
+										<i class="fas fa-user-circle text-muted"></i>
+									</span>
 								</div>
 							</div>
-
-							<!-- Password Field -->
-							<div class="form-group mb-4">
-								<label for="password" class="form-label" style="font-weight: 600; color: #555; font-size: 0.95rem; margin-bottom: 8px">
-									<i class="fas fa-key mr-2"></i>Contraseña
-								</label>
-								<div class="input-group" style="border-radius: 8px; overflow: hidden; border: 1px solid #ddd">
-									<input
-										[type]="showPassword ? 'text' : 'password'"
-										id="password"
-										class="form-control"
-										placeholder="••••••••"
-										formControlName="password"
-										style="height: 50px; border: none; font-size: 1rem; padding-left: 15px"
-										[ngClass]="{
+							@if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+							<div class="invalid-feedback d-block mt-2" style="font-size: 0.9rem; color: #dc3545">
+								<i class="fas fa-exclamation-circle mr-1"></i>
+								Por favor ingresa un correo electrónico válido
+							</div>
+							}
+						</div>
+						<!-- Password Field -->
+						<div class="form-group mb-4">
+							<label for="password" class="form-label" style="font-weight: 600; color: #555; font-size: 0.95rem; margin-bottom: 8px">
+								<i class="fas fa-key mr-2"></i>Contraseña
+							</label>
+							<div class="input-group" style="border-radius: 8px; overflow: hidden; border: 1px solid #ddd">
+								<input
+									[type]="showPassword ? 'text' : 'password'"
+									id="password"
+									class="form-control"
+									placeholder="••••••••"
+									formControlName="password"
+									style="height: 50px; border: none; font-size: 1rem; padding-left: 15px"
+									[ngClass]="{
                       'is-valid': loginForm.get('password')?.valid && loginForm.get('password')?.touched,
                       'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched
                     }"
-									/>
-									<div class="input-group-append">
-										<button
-											type="button"
-											class="btn"
-											(click)="showPassword = !showPassword"
-											style="background: white; border: none; padding: 0 15px; color: #666"
-											[attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-										>
-											<i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
-										</button>
-									</div>
-								</div>
-								<div
-									*ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-									class="invalid-feedback d-block mt-2"
-									style="font-size: 0.9rem; color: #dc3545"
-								>
-									<i class="fas fa-exclamation-circle mr-1"></i>
-									La contraseña es requerida
-								</div>
-							</div>
-
-							<!-- Remember & Forgot -->
-							<div class="row align-items-center mb-4">
-								<div class="col-7">
-									<div class="form-check">
-										<input type="checkbox" id="remember" formControlName="remember" class="form-check-input" style="margin-top: 0.3rem" />
-										<label for="remember" class="form-check-label text-muted cursor-pointer" style="font-size: 0.95rem">
-											<i class="fas fa-check mr-1"></i>
-											Recordar sesión
-										</label>
-									</div>
-								</div>
-								<div class="col-5 text-right">
-									<a
-										(click)="showRecoverForm()"
-										class="cursor-pointer"
-										style="color: #667eea; font-weight: 600; font-size: 0.95rem; text-decoration: none"
+								/>
+								<div class="input-group-append">
+									<button
+										type="button"
+										class="btn"
+										(click)="showPassword = !showPassword"
+										style="background: white; border: none; padding: 0 15px; color: #666"
+										[attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
 									>
-										<i class="fas fa-question-circle mr-1"></i>
-										¿Olvidaste?
-									</a>
+										<i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+									</button>
 								</div>
 							</div>
-
-							<!-- Submit Button -->
-							<div class="form-group mb-4">
-								<button
-									type="submit"
-									class="btn btn-primary btn-block"
-									[disabled]="loginForm.invalid || isLoading"
-									style="
-										height: 55px;
-										font-size: 1.1rem;
-										font-weight: 600;
-										border-radius: 8px;
-										background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-										border: none;
-										transition: all 0.3s ease;
-									"
-								>
-									<span *ngIf="!isLoading">
-										<i class="fas fa-sign-in-alt mr-2"></i>
-										Iniciar Sesión
-									</span>
-									<span *ngIf="isLoading">
-										<i class="fas fa-spinner fa-spin mr-2"></i>
-										Procesando...
-									</span>
-								</button>
+							@if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+							<div class="invalid-feedback d-block mt-2" style="font-size: 0.9rem; color: #dc3545">
+								<i class="fas fa-exclamation-circle mr-1"></i>
+								La contraseña es requerida
 							</div>
-						</form>
-
-						<!-- Register Link (Opcional) -->
-						<!-- <div class="text-center mt-4 pt-4 border-top">
-              <p class="text-muted mb-3" style="font-size: 0.95rem;">¿No tienes una cuenta?</p>
-              <a
-                (click)="goToRegister()"
-                class="btn btn-outline-primary cursor-pointer"
+							}
+						</div>
+						<!-- Remember & Forgot -->
+						<div class="row align-items-center mb-4">
+							<div class="col-7">
+								<div class="form-check">
+									<input type="checkbox" id="remember" formControlName="remember" class="form-check-input" style="margin-top: 0.3rem" />
+									<label for="remember" class="form-check-label text-muted cursor-pointer" style="font-size: 0.95rem">
+										<i class="fas fa-check mr-1"></i>
+										Recordar sesión
+									</label>
+								</div>
+							</div>
+							<div class="col-5 text-right">
+								<a
+									(click)="showRecoverForm()"
+									class="cursor-pointer"
+									style="color: #667eea; font-weight: 600; font-size: 0.95rem; text-decoration: none"
+								>
+									<i class="fas fa-question-circle mr-1"></i>
+									¿Olvidaste?
+								</a>
+							</div>
+						</div>
+						<!-- Submit Button -->
+						<div class="form-group mb-4">
+							<button
+								type="submit"
+								class="btn btn-primary btn-block"
+								[disabled]="loginForm.invalid || isLoading"
+								style="
+									height: 55px;
+									font-size: 1.1rem;
+									font-weight: 600;
+									border-radius: 8px;
+									background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+									border: none;
+									transition: all 0.3s ease;
+								"
+							>
+								@if (!isLoading) {
+								<span>
+									<i class="fas fa-sign-in-alt mr-2"></i>
+									Iniciar Sesión
+								</span>
+								} @if (isLoading) {
+								<span>
+									<i class="fas fa-spinner fa-spin mr-2"></i>
+									Procesando...
+								</span>
+								}
+							</button>
+						</div>
+					</form>
+					<!-- Register Link (Opcional) -->
+					<!-- <div class="text-center mt-4 pt-4 border-top">
+                  <p class="text-muted mb-3" style="font-size: 0.95rem;">¿No tienes una cuenta?</p>
+                  <a
+                    (click)="goToRegister()"
+                    class="btn btn-outline-primary cursor-pointer"
                 style="
                   padding: 10px 30px;
                   border-radius: 8px;
@@ -171,84 +158,81 @@
                   border: 2px solid #667eea;
                   color: #667eea;
                 "
-              >
-                <i class="fas fa-user-plus mr-2"></i>
-                Solicitar Acceso
-              </a>
-            </div> -->
-					</div>
-
-					<!-- RECOVER FORM (se mantiene igual pero con los mismos estilos) -->
-					<div *ngIf="isRecovering" class="recover-form">
-						<p class="login-box-msg text-muted mb-4" style="font-size: 1.1rem; padding: 10px 0">
-							<i class="fas fa-key mr-2"></i>
-							Recuperar Acceso
-						</p>
-
-						<form [formGroup]="recoverForm" (ngSubmit)="requestAccessCode()" class="needs-validation" novalidate>
-							<div class="form-group mb-4">
-								<label for="recoverEmail" class="form-label" style="font-weight: 600; color: #555; font-size: 0.95rem; margin-bottom: 8px">
-									<i class="fas fa-envelope mr-2"></i>Correo Electrónico Registrado
-								</label>
-								<div class="input-group" style="border-radius: 8px; overflow: hidden; border: 1px solid #ddd">
-									<input
-										type="email"
-										id="recoverEmail"
-										class="form-control"
-										placeholder="usuario@ejemplo.com"
-										formControlName="email"
-										style="height: 50px; border: none; font-size: 1rem; padding-left: 15px"
-									/>
-									<div class="input-group-append">
-										<span class="input-group-text" style="background: white; border: none; padding-right: 15px">
-											<i class="fas fa-at text-muted"></i>
-										</span>
-									</div>
+                    >
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Solicitar Acceso
+                  </a>
+                </div> -->
+				</div>
+				}
+				<!-- RECOVER FORM (se mantiene igual pero con los mismos estilos) -->
+				@if (isRecovering) {
+				<div class="recover-form">
+					<p class="login-box-msg text-muted mb-4" style="font-size: 1.1rem; padding: 10px 0">
+						<i class="fas fa-key mr-2"></i>
+						Recuperar Acceso
+					</p>
+					<form [formGroup]="recoverForm" (ngSubmit)="requestAccessCode()" class="needs-validation" novalidate>
+						<div class="form-group mb-4">
+							<label for="recoverEmail" class="form-label" style="font-weight: 600; color: #555; font-size: 0.95rem; margin-bottom: 8px">
+								<i class="fas fa-envelope mr-2"></i>Correo Electrónico Registrado
+							</label>
+							<div class="input-group" style="border-radius: 8px; overflow: hidden; border: 1px solid #ddd">
+								<input
+									type="email"
+									id="recoverEmail"
+									class="form-control"
+									placeholder="usuario@ejemplo.com"
+									formControlName="email"
+									style="height: 50px; border: none; font-size: 1rem; padding-left: 15px"
+								/>
+								<div class="input-group-append">
+									<span class="input-group-text" style="background: white; border: none; padding-right: 15px">
+										<i class="fas fa-at text-muted"></i>
+									</span>
 								</div>
-								<small class="form-text text-muted mt-2" style="font-size: 0.9rem"> Te enviaremos un código de acceso a este correo </small>
 							</div>
-
-							<div class="form-group mb-4">
-								<button
-									type="submit"
-									class="btn btn-primary btn-block"
-									[disabled]="recoverForm.invalid"
-									style="
-										height: 55px;
-										font-size: 1.1rem;
-										font-weight: 600;
-										border-radius: 8px;
-										background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-										border: none;
-									"
-								>
-									<i class="fas fa-paper-plane mr-2"></i>
-									Enviar Código de Acceso
-								</button>
-							</div>
-
-							<div class="text-center mt-4 pt-4 border-top">
-								<p class="mb-2">
-									<i class="fas fa-arrow-left mr-1"></i>
-									<a (click)="showLoginForm()" class="cursor-pointer" style="color: #667eea; font-weight: 600; text-decoration: none">
-										Volver al Inicio de Sesión
-									</a>
-								</p>
-							</div>
-						</form>
+							<small class="form-text text-muted mt-2" style="font-size: 0.9rem"> Te enviaremos un código de acceso a este correo </small>
+						</div>
+						<div class="form-group mb-4">
+							<button
+								type="submit"
+								class="btn btn-primary btn-block"
+								[disabled]="recoverForm.invalid"
+								style="
+									height: 55px;
+									font-size: 1.1rem;
+									font-weight: 600;
+									border-radius: 8px;
+									background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+									border: none;
+								"
+							>
+								<i class="fas fa-paper-plane mr-2"></i>
+								Enviar Código de Acceso
+							</button>
+						</div>
+						<div class="text-center mt-4 pt-4 border-top">
+							<p class="mb-2">
+								<i class="fas fa-arrow-left mr-1"></i>
+								<a (click)="showLoginForm()" class="cursor-pointer" style="color: #667eea; font-weight: 600; text-decoration: none">
+									Volver al Inicio de Sesión
+								</a>
+							</p>
+						</div>
+					</form>
+				</div>
+				} } @else {
+				<div class="text-center py-5">
+					<div class="spinner-border text-primary mb-4" style="width: 3rem; height: 3rem; color: #667eea !important" role="status">
+						<span class="sr-only">Cargando...</span>
 					</div>
-				</ng-container>
+					<h5 class="font-weight-bold" style="color: #333">Cargando Sistema</h5>
+					<p class="text-muted mt-2">Por favor espera...</p>
+				</div>
+				}
 
 				<!-- Loading Template -->
-				<ng-template #loadingTemplate>
-					<div class="text-center py-5">
-						<div class="spinner-border text-primary mb-4" style="width: 3rem; height: 3rem; color: #667eea !important" role="status">
-							<span class="sr-only">Cargando...</span>
-						</div>
-						<h5 class="font-weight-bold" style="color: #333">Cargando Sistema</h5>
-						<p class="text-muted mt-2">Por favor espera...</p>
-					</div>
-				</ng-template>
 			</div>
 
 			<!-- Footer -->
@@ -262,6 +246,5 @@
 		</div>
 
 		<!-- Demo Credentials -->
-
 	</div>
 </div>
