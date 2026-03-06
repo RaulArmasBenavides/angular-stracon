@@ -26,3 +26,7 @@ Registro de proveedores
 Listado de proveedores 
 
 <img width="1600" height="718" alt="image" src="https://github.com/user-attachments/assets/6f232b93-452a-4fb7-829e-a1ebc9bc8e32" />
+
+
+Para analizar los bundles
+npm run analyze
